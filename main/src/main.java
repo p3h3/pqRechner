@@ -43,7 +43,35 @@ public class main {
         berechnenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("wuuu knopf gedrückt!!");
+                // get variables from textfields and parse them to doubles
+                try {
+                    double a = Double.parseDouble(aField.getText());
+                    double b = Double.parseDouble(bField.getText());
+                    double c = Double.parseDouble(cField.getText());
+
+                    // p&q auf a=1 bringen
+                    b /= a;
+                    c /= a;
+
+                    double wurzel = (Math.pow(b, 2) / 4) - c;
+
+                    if(wurzel < 0){
+                        // keine Lösung
+                        ausgabeLabel.setText("Es gibt keine Lösung!");
+                    }else if(wurzel == 0) {
+                        double x1 = -b / 2;
+                        ausgabeLabel.setText("L={" + x1 + "}");
+                    }else{
+                        double x1 = (-b / 2) + Math.sqrt(wurzel);
+                        double x2 = (-b / 2) - Math.sqrt(wurzel);
+                        ausgabeLabel.setText("L={" + x1 + ";" + x2 + "}");
+                    }
+
+                // catching errors that could occur while parsing doubles from strings
+                    // (maybe there are letters in the input)
+                } catch (NumberFormatException exception){
+                    ausgabeLabel.setText("Bitte gebe Zahlen ein!");
+                }
             }
         });
 
@@ -66,24 +94,5 @@ public class main {
         f.getContentPane().add(panel);
         f.setVisible(true); // making the frame visible
 
-    }
-
-    private static double calc(double a, double b, double c){
-        b /= a;
-        c /= a;
-
-        double wurzel = (Math.pow(b, 2) / 4) - c;
-
-        if(wurzel < 0){
-            // keine Lösung
-            return -1;
-        }else if(wurzel == 0) {
-            double x1 = -b / 2;
-            return x1;
-        }else{
-            double x1 = (-b / 2) + Math.sqrt(wurzel);
-            double x2 = (-b / 2) - Math.sqrt(wurzel);
-        }
-        return 0;
     }
 }
